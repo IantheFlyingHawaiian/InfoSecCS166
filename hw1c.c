@@ -151,23 +151,30 @@ void cbc_mode_test() {
 
     
     /*************************** YOUR CODE HERE ***************************************/
+    uint16_t cipherL = 0;
+    uint16_t cipherR = 0;
+    uint16_t cipherL2 = 0;
+    uint16_t cipherR2 = 0;
     for (i=0; i<10; i+=2) 
      {
          if(i==0) 
          {
+             cipherL = text[0];
+             cipherR = text[1];
              decrypt(text+i,key);
              text[0] = iv[0] ^ text[0];
              text[1] = iv[1] ^ text[1];
-             left = text[0];
-             right = text[0];
+             
          }
          else
          {
-             left = text[i];
-             right = text[i+1];
+             cipherL2 = text[i];
+             cipherR2 = text[i+1];
              decrypt(text+i,key);
-             text[i] = left ^ text[i];
-             text[i+1] = right ^ text[i+1]; ;
+             text[i] = cipherL ^ text[i];
+             text[i+1] = cipherR ^ text[i+1];
+             cipherL = cipherL2;
+             cipherR = cipherR2;
          }
     }
     
