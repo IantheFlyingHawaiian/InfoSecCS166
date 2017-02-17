@@ -198,29 +198,33 @@ void ctr_mode_test() {
 
     /*************************** YOUR CODE HERE ***************************************/
     uint32_t p = 0;
-    uint32_t p1 = 0;
     uint32_t c = 0;
-    uint32_t c1 = 0;
     iv[0] = iv_left;
     iv[1] = iv_right;
+    uint32_t ivCounter = 0;
     for (i=0; i<=10; i+=2) {
-        
+        //add i to IV
+        iv[1] = iv_left + ivCounter;
         p = text[i];
         encrypt(iv+i, key);
         text[i] = p ^ text[i];
         
+        ivCounter++;
     }
 
     printf("(CTR) ciphertext= ");
     print_arr(text, 10);
 
     /*************************** YOUR CODE HERE ***************************************/
-
+    iv[0] = iv_left;
+    
+    //Errors in Decryption
     for (i=0; i<=10; i+=2) {
-        
-        c = text[0];
+        iv[1] = iv_left + ivCounter;
+        c = text[i];
         encrypt(iv+i, key);
-        text[0] = c ^ text[0];
+        text[i] = p ^ text[i];
+        ivCounter++;
     }
     
     printf("(CTR) plaintext = ");
