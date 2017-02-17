@@ -140,6 +140,8 @@ void cbc_mode_test() {
          {
              left = left ^ text[i];
              right = right ^ text[i+1];
+             text[i] = left;
+             text[i+1]=right;
             encrypt(text+i, key);
             left = text[i];
             right = text[i+1];
@@ -151,19 +153,50 @@ void cbc_mode_test() {
 
     
     /*************************** YOUR CODE HERE ***************************************/
+    uint32_t c[2];
+    uint32_t c2[2];
+    uint32_t c3[2];
+    uint32_t c4[2];
     for (i=0; i<10; i+=2) 
      {
          if(i==0) 
          {
-
+             c[0] = text[0];
+             c[1] = text[1];
              decrypt(text+i,key);
              text[0] = iv[0] ^ text[0];
              text[1] = iv[1] ^ text[1];
-             
          }
-         else
+         else if(i==2)
          {
-             decrypt(text+i,key);
+            c2[0] = text[i];
+            c2[1] = text[i+1];
+            decrypt(text+i,key);
+            text[i] = c[0] ^ text[i];
+            text[i+1] = c[1] ^ text[i+1];
+            
+         }
+         else if(i==4)
+         {
+            c3[0] = text[i];
+            c3[1] = text[i+1];
+            decrypt(text+i,key);
+            text[i] = c2[0] ^ text[i];
+            text[i+1] = c2[1] ^ text[i+1];
+         }
+         else if(i==6)
+         {
+            c4[0] = text[i];
+            c4[1] = text[i+1];
+            decrypt(text+i,key);
+            text[i] = c3[0] ^ text[i];
+            text[i+1] = c3[1] ^ text[i+1];
+         }
+         else if(i==8)
+         {
+            decrypt(text+i,key);
+            text[i] = c4[0] ^ text[i];
+            text[i+1] = c4[1] ^ text[i+1];
          }
     }
     
