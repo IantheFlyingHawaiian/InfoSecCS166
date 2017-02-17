@@ -232,16 +232,28 @@ void ctr_mode_test() {
     /*************************** YOUR CODE HERE ***************************************/
     uint32_t p = 0;
     uint32_t c = 0;
+    uint32_t c1 = 0;
     iv[0] = iv_left;
     iv[1] = iv_right;
     uint32_t ivCounter = 0;
     for (i=0; i<=10; i+=2) {
         if(i==0)
         {   c = text[i];
+            c1 = text[i+1];
             text[i] = iv[0];
             text[i+1] = iv[1];
             encrypt(text+i,key);
             text[i] = c ^ text[i];
+            text[i+1] = c1 ^ text[i];
+        }
+        if(i==2)
+        {   c = text[i];
+            c1 = text[i+1];
+            text[i] = iv[0] + 1;
+            text[i+1] = iv[1];
+            encrypt(text+i,key);
+            text[i] = c ^ text[i];
+            text[i+1] = c1 ^ text[i+1];
         }
     }
 
@@ -250,15 +262,26 @@ void ctr_mode_test() {
 
     /*************************** YOUR CODE HERE ***************************************/
     iv[0] = iv_left;
-    
+    uint32_t p1  = 0;
     //Errors in Decryption
     for (i=0; i<=10; i+=2) {
         if(i==0)
         {   p = text[i];
+            p1 = text[i+1];
             text[i] = iv[0];
             text[i+1] = iv[1] ;
             encrypt(text+i,key);
             text[i] = p ^ text[i];
+            text[i+1] = p1 ^ text[i+1];
+        }
+        else if(i==2)
+        {   p = text[i];
+            p1 = text[i+1];
+            text[i] = iv[0] + 1;
+            text[i+1] = iv[1];
+            encrypt(text+i,key);
+            text[i] = p ^ text[i];
+            text[i+1] = p1 ^ text[i+1];
         }
     }
     
