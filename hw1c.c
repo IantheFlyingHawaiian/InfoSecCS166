@@ -236,13 +236,13 @@ void ctr_mode_test() {
     iv[1] = iv_right;
     uint32_t ivCounter = 0;
     for (i=0; i<=10; i+=2) {
-        //add i to IV
-        iv[1] = iv_left + ivCounter;
-        p = text[i];
-        encrypt(iv+i, key);
-        text[i] = p ^ text[i];
-        
-        ivCounter++;
+        if(i==0)
+        {   c = text[i];
+            text[i] = iv[0];
+            text[i+1] = iv[1];
+            encrypt(text+i,key);
+            text[i] = c ^ text[i];
+        }
     }
 
     printf("(CTR) ciphertext= ");
@@ -253,11 +253,13 @@ void ctr_mode_test() {
     
     //Errors in Decryption
     for (i=0; i<=10; i+=2) {
-        iv[1] = iv_left + ivCounter;
-        c = text[i];
-        encrypt(iv+i, key);
-        text[i] = p ^ text[i];
-        ivCounter++;
+        if(i==0)
+        {   p = text[i];
+            text[i] = iv[0];
+            text[i+1] = iv[1] ;
+            encrypt(text+i,key);
+            text[i] = p ^ text[i];
+        }
     }
     
     printf("(CTR) plaintext = ");
