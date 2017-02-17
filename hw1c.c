@@ -169,12 +169,11 @@ void cbc_mode_test() {
          else
          {
              cipherL2 = text[i];
-             cipherR2 = text[i+1];
+             cipherR2 = text[i];
              decrypt(text+i,key);
              text[i] = cipherL ^ text[i];
-             text[i+1] = cipherR ^ text[i+1];
-             cipherL = cipherL2;
-             cipherR = cipherR2;
+             //text[i+1] = cipherR ^ text[i+1];
+             
          }
     }
     
