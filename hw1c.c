@@ -151,16 +151,11 @@ void cbc_mode_test() {
 
     
     /*************************** YOUR CODE HERE ***************************************/
-    uint16_t cipherL = 0;
-    uint16_t cipherR = 0;
-    uint16_t cipherL2 = 0;
-    uint16_t cipherR2 = 0;
     for (i=0; i<10; i+=2) 
      {
          if(i==0) 
          {
-             cipherL = text[0];
-             cipherR = text[1];
+
              decrypt(text+i,key);
              text[0] = iv[0] ^ text[0];
              text[1] = iv[1] ^ text[1];
@@ -202,9 +197,10 @@ void ctr_mode_test() {
     print_arr(text, 10);
 
     /*************************** YOUR CODE HERE ***************************************/
-    uint64_t p = 0;
-    uint64_t c = 0;
-    
+    uint32_t p = 0;
+    uint32_t p1 = 0;
+    uint32_t c = 0;
+    uint32_t c1 = 0;
     iv[0] = iv_left;
     iv[1] = iv_right;
     for (i=0; i<=10; i+=2) {
@@ -212,18 +208,19 @@ void ctr_mode_test() {
         p = text[i];
         encrypt(iv+i, key);
         text[i] = p ^ text[i];
+        
     }
 
     printf("(CTR) ciphertext= ");
     print_arr(text, 10);
 
     /*************************** YOUR CODE HERE ***************************************/
-    
+
     for (i=0; i<=10; i+=2) {
         
-        c = text[i];
+        c = text[0];
         encrypt(iv+i, key);
-        text[i] = c ^ text[i];
+        text[0] = c ^ text[0];
     }
     
     printf("(CTR) plaintext = ");
